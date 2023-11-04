@@ -1,6 +1,6 @@
 # Aim
 
-To implement the first come first serve scheduling algorithm
+To implement the first come first serve scheduling algorithm.
 
 # Algorithm
 1. Start the process
