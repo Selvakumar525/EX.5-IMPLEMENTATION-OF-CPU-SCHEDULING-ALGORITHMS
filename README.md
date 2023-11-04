@@ -1,354 +1,411 @@
-# EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS
-# Aim
+## IMPLEMENTATION OF CPU SCHEDULING ALGORITHM
+## FIRST COME FIRST SERVE(FCFS) SCHEDULING
 
-To implement the first come first serve scheduling algorithm.
 
-# Algorithm
-1. Start the process
-2. Get the number of processes to be inserted
-3. Get the value for burst time of each process from the user
-4. Having allocated the burst time(bt) for individual processes , Start with the first
-process from its initial position let other process to be in queue
-5. Calculate the waiting time(wt) and turnaround time(tat) as
-6. Wt(pi) = wt(pi-1) + tat(pi-1) (i.e. wt of current process = wt of previous process + tat of
-previous process)
-7. tat(pi) = wt(pi) + bt(pi) (i.e. tat of current process = wt of current process + bt of
-current process)
-8. Calculate the total and average waiting time and turnaround time
-9. Display the values
-10. Stop the process
+## AIM:
+To implement First-Come-First-Serve (FCFS) Scheduling
 
-# GANTT CHART
-
-![image](https://github.com/Harsayazheni/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/118708467/4cf27afa-57b7-4d4b-a04e-367b6d127f00)
-
-# PROGRAM
+## ALGORITHM:
+Start the process
+Accept the number of processes in the ready queue
+For each process in the ready queue, do the following:
+Accept the process ID and burst time
+Calculate the waiting time for the current process
+Calculate the turnaround time for the current process
+Display the process ID, burst time, waiting time and turnaround time for the current process
+Calculate the average waiting time and average turnaround time
+Stop the process
+## PROGRAM:
 ```
-#include<stdio.h>
-int main()
-{
-int bt[20],p[20],wt[20],tat[20],i,j,n,total=0,pos,temp; float
-avg_wt,avg_tat;
-printf("Enter number of process:");
-scanf("%d",&n);
-printf("\nEnter Burst Time:\n");
-for(i=0;i<n;i++)
-{
-printf("p % d:",i+1);
-scanf("%d",&bt[i]);
-p[i]=i+1; //contains process number
-}
-wt[0]=0; //waiting time for first process will be zero
-//calculate waiting time
-for(i=1;i<n;i++)
-{
-wt[i]=0;
-for(j=0;j<i;j++)
-wt[i]+=bt[j];
-total+=wt[i];
-}
-avg_wt=(float)total/n; //average waiting time
-total=0;
-printf("\nProcess\t Burst Time \tWaiting Time\tTurnaround Time");
-for(i=0;i<n;i++)
-{
-tat[i]=bt[i]+wt[i]; //calculate turnaround time
-total+=tat[i];
-printf("\np%d\t\t %d\t\t %d\t\t\t%d",p[i],bt[i],wt[i],tat[i]);
-}
-avg_tat=(float)total/n; //average turnaround time
-printf("\n\nAverage Waiting Time=%f",avg_wt);
-printf("\nAverage Turnaround Time=%f\n",avg_tat);
-}
+# Get the number of processes from the user
+n = int(input("Enter number of processes: "))
+
+# Initialize lists to store process names and burst times
+processes = []
+burst_time = []
+
+# Input process names and burst times
+for i in range(n):
+    p = input("Enter process name: ")
+    processes.append(p)
+    b = int(input("Enter burst time: "))
+    burst_time.append(b)
+
+# Initialize waiting time and turnaround time lists
+wt = [0] * n
+tat = [0] * n
+
+# Calculate waiting time for each process
+wt[0] = 0
+for i in range(1, n):
+    wt[i] = burst_time[i - 1] + wt[i - 1]
+
+# Calculate turnaround time for each process
+for i in range(n):
+    tat[i] = burst_time[i] + wt[i]
+
+# Display processes along with all details
+print("Processes Burst time Waiting time Turn around time")
+total_wt = 0
+total_tat = 0
+
+# Calculate total waiting time and total turnaround time
+for i in range(n):
+    total_wt += wt[i]
+    total_tat += tat[i]
+    print(f"{processes[i]}\t\t{burst_time[i]}\t {wt[i]}\t\t {tat[i]}")
+
+# Calculate and display average waiting time and average turnaround time
+avg_wt = total_wt / n
+avg_tat = total_tat / n
+print(f"Average waiting time = {avg_wt}")
+print(f"Average turnaround time = {avg_tat}")
 ```
-# OUTPUT
-
-![image](https://github.com/Harsayazheni/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/118708467/a667c592-6abd-41ae-b97c-dff48e236c3c)
-
-# RESULT
-
-Thus, the first come first serve scheduling algorithm is implemented successfully.
-
-# Aim
-
-To implement the shortest job first scheduling algorithm
-
-# Algorithm
-1. Start the process
-2. Get the number of processes to be inserted
-3. Get the value for burst time of each process from the user
-4. Having allocated the burst time(bt) for individual processes , Start with the first
-process from its initial position let other process to be in queue
-5. Calculate the waiting time(wt) and turnaround time(tat) as
-6. Wt(pi) = wt(pi-1) + tat(pi-1) (i.e. wt of current process = wt of previous process + tat of
-previous process)
-7. tat(pi) = wt(pi) + bt(pi) (i.e. tat of current process = wt of current process + bt of
-current process)
-8. Calculate the total and average waiting time and turnaround time
-9. Display the values
-10. Stop the process
-
-# GANTT CHART
-
-![image](https://github.com/Harsayazheni/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/118708467/0f412720-6a23-41a4-85d0-ec25adf68845)
+## OUTPUT:
+![272647726-bd4d6101-b830-4aa6-ac62-15827e35009d](https://github.com/JAYAVARTHAN-P/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/121369281/29d09aec-1662-4e01-9ed5-e07921c82d08)
 
 
-# PROGRAM
+## RESULT:
+First-Come-First-Serve Scheduling is implemented successfully.
+
+## Shortest Job First (SJF) Preemptive Scheduling
+
+## AIM:
+To implement Shortest Job First (SJF) Preemptive Scheduling
+
+## ALGORITHM:
+Start the process
+Accept the number of processes in the ready queue
+For each process in the ready queue, do the following:
+Accept the process ID and burst time
+Calculate the waiting time for the current process
+Calculate the turnaround time for the current process
+Display the process ID, burst time, waiting time and turnaround time for the current process
+Calculate the average waiting time and average turnaround time
+Stop the process
+## PROGRAM:
 ```
-#include<stdio.h>
-int main()
-{
-int bt[20],p[20],wt[20],tat[20],i,j,n,total=0,pos,temp; float
-avg_wt,avg_tat;
-printf("Enter number of process:");
-scanf("%d",&n);
-printf("\nEnter Burst Time:\n");
-for(i=0;i<n;i++)
-{
-printf("p%d:",i+1);
-scanf("%d",&bt[i]);
-p[i]=i+1; //contains process number
-}
-//sorting burst time in ascending order using selection sort
-for(i=0;i<n;i++)
-{
-pos=i;
-for(j=i+1;j<n;j++)
-{
-if(bt[j]<bt[pos])
-pos=j;
-}
-temp=bt[i];
-bt[i]=bt[pos];
-bt[pos]=temp;
-temp=p[i];
-p[i]=p[pos];
-p[pos]=temp;
-}
-wt[0]=0; //waiting time for first process will be zero
-//calculate waiting time
-for(i=1;i<n;i++)
-{
-wt[i]=0;
-for(j=0;j<i;j++)
-wt[i]+=bt[j];
-total+=wt[i];
-}
-avg_wt=(float)total/n; //average waiting time
-total=0;
-printf("\nProcess\t Burst Time \tWaiting Time\tTurnaround Time");
-for(i=0;i<n;i++)
-{
-tat[i]=bt[i]+wt[i]; //calculate turnaround time
-total+=tat[i];
-printf("\np%d\t\t %d\t\t %d\t\t\t%d",p[i],bt[i],wt[i],tat[i]);
-}
-avg_tat=(float)total/n; //average turnaround time
-printf("\n\nAverage Waiting Time=%f",avg_wt);
-printf("\nAverage Turnaround Time=%f\n",avg_tat);
-}
+n = int(input("Enter the number of processes: "))
+
+burst_time = []
+processes = list(range(1, n + 1))
+
+print("Enter burst times for each process:")
+for i in range(n):
+    burst_time.append(int(input(f"Burst time for process {i + 1}: ")))
+
+total = 0
+wt = [0] * n
+tat = [0] * n
+
+# Sorting burst times and processes
+for i in range(n):
+    pos = i
+    for j in range(i + 1, n):
+        if burst_time[j] < burst_time[pos]:
+            pos = j
+
+    burst_time[i], burst_time[pos] = burst_time[pos], burst_time[i]
+    processes[i], processes[pos] = processes[pos], processes[i]
+
+wt[0] = 0
+
+# Calculating waiting time for all processes
+for i in range(1, n):
+    wt[i] = 0
+    for j in range(i):
+        wt[i] += burst_time[j]
+
+    total += wt[i]
+
+avg_wt = total / n
+
+print("\nProcess   Burst Time   Waiting Time   Turnaround Time")
+total_tat = 0
+for i in range(n):
+    tat[i] = burst_time[i] + wt[i]
+    total_tat += tat[i]
+    print(f"P{processes[i]} {burst_time[i]:12d} {wt[i]:12d} {tat[i]:12d}")
+
+avg_tat = total_tat / n
+print(f"\nAverage Waiting Time = {avg_wt:.2f}")
+print(f"Average Turnaround Time = {avg_tat:.2f}")
 ```
-# OUTPUT
-
-![image](https://github.com/Harsayazheni/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/118708467/523eb466-a2a3-4493-a01f-b4dd4afbae9b)
-
-
-# RESULT
-
-Thus, the first come shortest job first algorithm is implemented successfully.
-
-# Aim
-
-To implement the priority scheduling algorithm
-
-# Algorithm
-1. Start the process
-2. Get the number of processes to be inserted
-3. Get the corresponding priority of processes
-4. Sort the processes according to the priority and allocate the one with highest priority
-to execute first
-5. If two process have same priority then FCFS scheduling algorithm is used
-6. Calculate the total and average waiting time and turnaround time
-7. Display the values
-8. Stop the process
-
-# GANTT CHART
-
-![image](https://github.com/Harsayazheni/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/118708467/87cc32d4-9b10-4f25-9e24-b8cc372f74d9)
+## OUTPUT:
+![272655574-a44410a0-f001-4f05-ae9b-f870766e18c5](https://github.com/JAYAVARTHAN-P/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/121369281/720c913e-67be-4f89-8adb-897c074eb527)
 
 
-# PROGRAM
+## RESULT:
+Shortest Job First (SJF) preemptive scheduling is implemented successfully.
+
+## Shortest Job First (SJF) Non-Preemptive Scheduling
+
+## AIM:
+To implement Shortest Job First (SJF) Non-Preemptive Scheduling
+
+## ALGORITHM:
+
+Shortest Job First (SJF) Non-Preemptive Scheduling is a scheduling algorithm that aims to minimize the average waiting time of processes in a CPU scheduling environment. It selects the process with the shortest burst time to execute first. The algorithm operates in a non-preemptive manner, meaning that once a process starts executing, it continues until it completes its entire burst time. To implement SJF, you first determine the burst time for each process and then sort the processes in ascending order of their burst times. The process with the shortest burst time is scheduled to run next. This process continues until all processes have been executed. SJF non-preemptive scheduling is effective in minimizing waiting times for shorter tasks but can lead to longer waiting times for longer tasks if they arrive early in the queue.
+## PROGRAM:
 ```
-#include<stdio.h>
-int main()
-{
-int bt[20],p[20],wt[20],tat[20],pri[20],i,j,k,n,total=0,pos,temp; float
-avg_wt,avg_tat;
-printf("Enter number of process:");
-scanf("%d",&n);
-printf("\nEnter Burst Time:\n");
-for(i=0;i<n;i++)
-{
-printf("p%d:",i+1);
-scanf("%d",&bt[i]);
-p[i]=i+1; //contains process number
-}
-printf(" enter priority of the process ");
-for(i=0;i<n;i++)
-{
-p[i] = i;
-//printf("Priority of Process");
-printf("p%d ",i+1);
-scanf("%d",&pri[i]);
-}
-for(i=0;i<n;i++)
-for(k=i+1;k<n;k++)
-if(pri[i] > pri[k])
-{
-temp=p[i];
-p[i]=p[k];
-p[k]=temp;
-temp=bt[i];
-bt[i]=bt[k];
-bt[k]=temp;
-temp=pri[i];
-pri[i]=pri[k];
-pri[k]=temp;
-}
-wt[0]=0; //waiting time for first process will be zero
-//calculate waiting time
-for(i=1;i<n;i++)
-{
-wt[i]=0;
-for(j=0;j<i;j++)
-wt[i]+=bt[j];
-total+=wt[i];
-}
-avg_wt=(float)total/n; //average waiting time
-total=0;
-printf("\nProcess\t Burst Time \tPriority \tWaiting Time\tTurnaround Time");
-for(i=0;i<n;i++)
-{
-tat[i]=bt[i]+wt[i]; //calculate turnaround time
-total+=tat[i];
-printf("\np%d\t\t %d\t\t %d\t\t %d\t\t\t%d",p[i],bt[i],pri[i],wt[i],tat[i]);
-}
-avg_tat=(float)total/n; //average turnaround time
-printf("\n\nAverage Waiting Time=%f",avg_wt);
-printf("\nAverage Turnaround Time=%f\n",avg_tat);
-}
+def sjf_non_preemptive(processes, burst_time):
+    n = len(processes)
+
+    # Sort processes based on their burst times
+    for i in range(n):
+        for j in range(0, n - i - 1):
+            if burst_time[j] > burst_time[j + 1]:
+                processes[j], processes[j + 1] = processes[j + 1], processes[j]
+                burst_time[j], burst_time[j + 1] = burst_time[j + 1], burst_time[j]
+
+    # Calculate waiting time for each process
+    waiting_time = [0] * n
+    waiting_time[0] = 0
+
+    for i in range(1, n):
+        waiting_time[i] = burst_time[i - 1] + waiting_time[i - 1]
+
+    # Calculate turnaround time for each process
+    turnaround_time = [0] * n
+    for i in range(n):
+        turnaround_time[i] = waiting_time[i] + burst_time[i]
+
+    # Calculate the average waiting time and average turnaround time
+    total_waiting_time = sum(waiting_time)
+    total_turnaround_time = sum(turnaround_time)
+    average_waiting_time = total_waiting_time / n
+    average_turnaround_time = total_turnaround_time / n
+
+    # Print the results
+    print("Process\tBurst Time\tWaiting Time\tTurnaround Time")
+    for i in range(n):
+        print(f"{processes[i]}\t{burst_time[i]}\t\t{waiting_time[i]}\t\t{turnaround_time[i]}")
+
+    print(f"Average Waiting Time: {average_waiting_time}")
+    print(f"Average Turnaround Time: {average_turnaround_time}")
+
+
+# Example usage:
+if __name__ == "__main__":
+    processes = ['P1', 'P2', 'P3', 'P4', 'P5']
+    burst_time = [6, 8, 7, 3, 2]
+    sjf_non_preemptive(processes, burst_time)
+
+
 ```
-# OUTPUT
 
-![image](https://github.com/Harsayazheni/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/118708467/0e8eccaa-dfad-4e7d-b817-65a835968bc0)
-
-
-
-# RESULT
-
-Thus, the priority algorithm is implemented successfully.
-
-# Aim
-
-To implement the round robin scheduling algorithm
-
-# Algorithm
-1. Start the process
-2. Get the number of elements to be inserted
-3. Get the value for burst time for individual processes
-4. Get the value for time quantum
-5. Make the CPU scheduler go around the ready queue allocating CPU to each process
-for the time interval specified
-6. Make the CPU scheduler pick the first process and set time to interrupt after quantum.
-And after it's expiry dispatch the process
-7. If the process has burst time less than the time quantum then the process is released by
-the CPU
-8. If the process has burst time greater than time quantum then it is interrupted by the OS
-and the process is put to the tail of ready queue and the schedule selects next
-process from head of the queue
-9. Calculate the total and average waiting time and turnaround time
-10. Display the results
-
-# GANTT CHART
-
-![image](https://github.com/Harsayazheni/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/118708467/21e4cb71-96d8-49ed-be60-ebc2af91ed9b)
+## OUTPUT:
+![Screenshot (115)](https://github.com/JAYAVARTHAN-P/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/121369281/b0f337ea-5120-4a3a-a302-3ea93517c503)
 
 
-# PROGRAM
+
+## RESULT:
+Shortest Job First (SJF) Non-preemptive scheduling is implemented successfully.
+
+## AIM: 
+To implement Round Robin (RR) Scheduling
+
+## ALGORITHM:
+ALGORITHM: Start the process Get the number of elements to be inserted Get the value for burst time for individual processes Get the value for time quantum Make the CPU scheduler go around the ready queue allocating CPU to each process for the time interval specified Make the CPU scheduler pick the first process and set time to interrupt after quantum. And after it's expiry dispatch the process If the process has burst time less than the time quantum then the process is released by the CPU If the process has burst time greater than time quantum then it is interrupted by the OS and the process is put to the tail of ready queue and the schedule selects next process from head of the queue Calculate the total and average waiting time and turnaround time Display the results
+
+## PROGRAM:
 ```
-#include<stdio.h>  
-#include<conio.h>  
-  
-void main()  
-{  
-    // initlialize the variable name  
-    int i, NOP, sum=0,count=0, y, quant, wt=0, tat=0, at[10], bt[10], temp[10];  
-    float avg_wt, avg_tat;  
-    printf(" Total number of process in the system: ");  
-    scanf("%d", &NOP);  
-    y = NOP; // Assign the number of process to variable y  
-  
-// Use for loop to enter the details of the process like Arrival time and the Burst Time  
-for(i=0; i<NOP; i++)  
-{  
-printf("\n Enter the Arrival and Burst time of the Process[%d]\n", i+1);  
-printf(" Arrival time is: \t");  // Accept arrival time  
-scanf("%d", &at[i]);  
-printf(" \nBurst time is: \t"); // Accept the Burst time  
-scanf("%d", &bt[i]);  
-temp[i] = bt[i]; // store the burst time in temp array  
-}  
-// Accept the Time qunat  
-printf("Enter the Time Quantum for the process: \t");  
-scanf("%d", &quant);  
-// Display the process No, burst time, Turn Around Time and the waiting time  
-printf("\n Process No \t\t Burst Time \t\t TAT \t\t Waiting Time ");  
-for(sum=0, i = 0; y!=0; )  
-{  
-if(temp[i] <= quant && temp[i] > 0) // define the conditions   
-{  
-    sum = sum + temp[i];  
-    temp[i] = 0;  
-    count=1;  
-    }     
-    else if(temp[i] > 0)  
-    {  
-        temp[i] = temp[i] - quant;  
-        sum = sum + quant;    
-    }  
-    if(temp[i]==0 && count==1)  
-    {  
-        y--; //decrement the process no.  
-        printf("\nProcess No[%d] \t\t %d\t\t\t\t %d\t\t\t %d", i+1, bt[i], sum-at[i], sum-at[i]-bt[i]);  
-        wt = wt+sum-at[i]-bt[i];  
-        tat = tat+sum-at[i];  
-        count =0;     
-    }  
-    if(i==NOP-1)  
-    {  
-        i=0;  
-    }  
-    else if(at[i+1]<=sum)  
-    {  
-        i++;  
-    }  
-    else  
-    {  
-        i=0;  
-    }  
-}  
-// represents the average waiting time and Turn Around time  
-avg_wt = wt * 1.0/NOP;  
-avg_tat = tat * 1.0/NOP;  
-printf("\n Average Turn Around Time: \t%f", avg_wt);  
-printf("\n Average Waiting Time: \t%f", avg_tat);  
-getch();  
-}  
+from collections import deque
+
+def round_robin(processes, burst_time, quantum):
+    n = len(processes)
+    queue = deque()  # Create a queue to store processes
+    remaining_time = list(burst_time)  # Initialize remaining time for each process
+    waiting_time = [0] * n  # Initialize waiting time for each process
+
+    total_waiting_time = 0  # Total waiting time
+    total_turnaround_time = 0  # Total turnaround time
+    current_time = 0  # Current time
+
+    # Process the queue until all processes are completed
+    while True:
+        done = True
+
+        # Iterate through each process
+        for i in range(n):
+            if remaining_time[i] > 0:
+                done = False
+
+                # Execute a process for the quantum time or its remaining time, whichever is smaller
+                if remaining_time[i] > quantum:
+                    current_time += quantum
+                    remaining_time[i] -= quantum
+                else:
+                    current_time += remaining_time[i]
+                    waiting_time[i] = current_time - burst_time[i]
+                    remaining_time[i] = 0
+
+        # If all processes are done, break the loop
+        if done:
+            break
+
+    # Calculate turnaround time for each process
+    turnaround_time = [bt + wt for bt, wt in zip(burst_time, waiting_time)]
+
+    # Calculate the average waiting time and average turnaround time
+    average_waiting_time = sum(waiting_time) / n
+    average_turnaround_time = sum(turnaround_time) / n
+
+    # Print the results
+    print("Process\tBurst Time\tWaiting Time\tTurnaround Time")
+    for i in range(n):
+        print(f"{processes[i]}\t{burst_time[i]}\t\t{waiting_time[i]}\t\t{turnaround_time[i]}")
+
+    print(f"Average Waiting Time: {average_waiting_time}")
+    print(f"Average Turnaround Time: {average_turnaround_time}")
+
+# Example usage:
+if __name__ == "__main__":
+    processes = ['P1', 'P2', 'P3', 'P4']
+    burst_time = [10, 5, 8, 12]
+    quantum = 2
+    round_robin(processes, burst_time, quantum)
+
 ```
-# OUTPUT
 
-![image](https://github.com/Harsayazheni/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/118708467/67af8c83-3863-4e6c-a650-e8c032bcf044)
+## OUTPUT:
 
-# RESULT
+![Screenshot (116)](https://github.com/JAYAVARTHAN-P/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/121369281/5c3d4d80-04e7-48c7-a08a-be0a98a5df38)
 
-Thus, the round robin algorithm is implemented successfully.
+
+## RESULT:
+Round Robin (RR) Scheduling is implemented successfully.
+
+## AIM: 
+To implement Priority Preemptive Scheduling
+
+## ALGORITHM:
+```
+1.Input process information for n processes and initialize variables. 
+2.Implement priority-based scheduling to determine process execution order.
+3.Calculate waiting times and turnaround times for each process.
+4.Compute the average waiting time and average turnaround time. 5.Display the results, including process details and averages
+```
+
+## PROGRAM:
+
+```
+def priority_preemptive(processes, burst_time, priorities):
+    n = len(processes)
+    remaining_time = list(burst_time)  # Initialize remaining time for each process
+    completion_time = [0] * n
+    current_time = 0
+
+    while True:
+        highest_priority = None
+        for i in range(n):
+            if remaining_time[i] > 0:
+                if highest_priority is None or priorities[i] < priorities[highest_priority]:
+                    highest_priority = i
+
+        if highest_priority is None:
+            break
+
+        remaining_time[highest_priority] -= 1
+        current_time += 1
+
+        if remaining_time[highest_priority] == 0:
+            completion_time[highest_priority] = current_time
+
+    waiting_time = [0] * n
+    turnaround_time = [0] * n
+
+    for i in range(n):
+        turnaround_time[i] = completion_time[i]
+        waiting_time[i] = turnaround_time[i] - burst_time[i]
+
+    average_waiting_time = sum(waiting_time) / n
+    average_turnaround_time = sum(turnaround_time) / n
+
+    print("Process\tBurst Time\tPriority\tWaiting Time\tTurnaround Time")
+    for i in range(n):
+        print(f"{processes[i]}\t{burst_time[i]}\t\t{priorities[i]}\t\t{waiting_time[i]}\t\t{turnaround_time[i]}")
+
+    print(f"Average Waiting Time: {average_waiting_time}")
+    print(f"Average Turnaround Time: {average_turnaround_time}")
+
+# Example usage:
+if __name__ == "__main__":
+    processes = ['P1', 'P2', 'P3', 'P4']
+    burst_time = [5, 9, 3, 7]
+    priorities = [2, 1, 3, 4]
+    priority_preemptive(processes, burst_time, priorities)
+
+```
+
+## OUTPUT:
+
+![Screenshot (117)](https://github.com/JAYAVARTHAN-P/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/121369281/01c7878e-f418-4595-968f-348ac91de06f)
+
+
+## RESULT: 
+Priority Preemptive scheduling is implemented successfully.
+
+## AIM: 
+To implement Priority Non-Preemptive Scheduling
+
+## ALGORITHM:
+In Priority Non-Preemptive Scheduling, each process is associated with a priority value, which is used to determine the order in which processes are executed. The scheduler selects the process with the highest priority from the ready queue and allows it to execute until completion. If multiple processes have the same highest priority, they are executed in the order they arrived, following a FCFS approach. This algorithm continues until all processes have completed their execution.
+
+## PROGRAM:
+```
+def priority_non_preemptive(processes, burst_time, priorities):
+    n = len(processes)
+    completion_time = [0] * n
+    waiting_time = [0] * n
+    turnaround_time = [0] * n
+    total_waiting_time = 0
+    total_turnaround_time = 0
+
+    # Create a list of tuples containing process information
+    process_info = [(processes[i], burst_time[i], priorities[i]) for i in range(n)]
+
+    # Sort the processes based on their priorities (lower values indicate higher priority)
+    process_info.sort(key=lambda x: x[2])
+
+    # Calculate completion times, waiting times, and turnaround times
+    completion_time[0] = process_info[0][1]
+    for i in range(1, n):
+        completion_time[i] = completion_time[i - 1] + process_info[i][1]
+    
+    for i in range(n):
+        turnaround_time[i] = completion_time[i]
+        waiting_time[i] = turnaround_time[i] - burst_time[i]
+        total_waiting_time += waiting_time[i]
+        total_turnaround_time += turnaround_time[i]
+
+    # Calculate the average waiting time and average turnaround time
+    average_waiting_time = total_waiting_time / n
+    average_turnaround_time = total_turnaround_time / n
+
+    # Print the results
+    print("Process\tBurst Time\tPriority\tWaiting Time\tTurnaround Time")
+    for i in range(n):
+        print(f"{process_info[i][0]}\t{process_info[i][1]}\t\t{process_info[i][2]}\t\t{waiting_time[i]}\t\t{turnaround_time[i]}")
+
+    print(f"Average Waiting Time: {average_waiting_time}")
+    print(f"Average Turnaround Time: {average_turnaround_time}")
+
+# Example usage:
+if __name__ == "__main__":
+    processes = ['P1', 'P2', 'P3', 'P4']
+    burst_time = [8, 6, 1, 9]
+    priorities = [2, 1, 3, 4]
+    priority_non_preemptive(processes, burst_time, priorities)
+
+
+```
+
+
+## OUTPUT:
+
+![Screenshot (118)](https://github.com/JAYAVARTHAN-P/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/121369281/daa4af50-f541-4355-9c44-dd77275e8fde)
+
+
+## RESULT: 
+Priority Non-preemptive scheduling is implemented successfully.
